@@ -27,11 +27,11 @@ fig_directory <- "figures_new"; mkdir(fig_directory)
 perturbseq_filepath <- file.path("D:", "Promotion_databases", "perturbseq_datasets")
 paralog_standards_filepath <- file.path("D:", "Promotion_databases", "paralog_standards")
 
-lm_instructions_fpath <- file.path(cache, 
+lm_instructions_fpath <- file.path(large_cache, 
                                    str_c(.dm, "_linear_regression_cache_instructions"))
 mkdir(lm_instructions_fpath)
 
 linreg_filepath <- file.path(large_cache, 
-                             str_c(.dm, "_linear_regression_new_and_clean"))
+                             str_c(.dm, "_linear_regression"))
 mkdir(linreg_filepath)
 

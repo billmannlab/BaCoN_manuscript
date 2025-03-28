@@ -6,6 +6,8 @@ library(readxl)
 #library(tidyverse); 
 
 library(magrittr)
+library(stringr)
+library(dplyr)
 library(ggplot2); theme_set(theme_classic())
 
 library(sva) # ComBat
