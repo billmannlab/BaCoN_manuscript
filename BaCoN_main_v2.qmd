@@ -1,0 +1,164 @@
+---
+title: "BaCoN - main 2.0"
+author: "Thomas Rohde"
+date: "2024"
+format: html
+editor: source
+---
+
+```{r setup, echo=FALSE, include=FALSE, eval=TRUE}
+
+knitr::opts_chunk$set(echo = F, message = T)
+options(knitr.duplicate.label = "allow")
+
+# define the depmap version to use. Default is 23Q2, for some additional analyses, 
+# datasets from 22Q4 and 24Q2 are used. 
+.dm <- c("22Q4", "23Q2", "24Q2")[2]
+
+```
+
+
+```{r}
+
+source("R/0_packages.R")
+
+for (.f in list.files("R_functions")) {
+  source(file.path("R_functions", .f))
+}
+
+
+source("R/0_initialize.R")
+source("R/0_ncbi_info.R")
+# Import Depmap data, equalize dimensions:
+source("R/0_depmap_scores.R")
+source("R/0_depmap_covariates.R")
+
+source("R/0_initialize_dynamic_gene_space_analysis.R")
+source("R/0_initialize_random_subsampling.R")
+source("R/0_initialize_linear_regression.R")
+source("R/0_linear_regression_functions.R")
+
+
+```
+
+
+```{r}
+
+source("R/0_paralog_sets.R")
+```
+
+
+
+```{r}
+
+source("R/0_important_gene_pairs.R")
+
+```
+
+
+```{r}
+
+coords_of_pairs <- \(matrix, pairs) {
+  x <- melt_array_to_dt(matrix, "gene1", "gene2", "value")
+  return(x[, .I[(str_c(gene1, "_", gene2) %in% pairs) | 
+                  (str_c(gene2, "_", gene1) %in% pairs)]])
+}
+
+
+if (.dm == "23Q2" & F) {
+  
+  source("R/0_gene_set_coordinates.R")
+  source("R/0_gene_pair_set_stats.R")
+  }
+
+```
+
+
+
+
+# Run all computations
+
+```{r, eval=FALSE}
+source("R/1_pcc_bacon_main_analyses.R")
+
+if (F) {
+  source("R/1_random_cell_line_subsampling.R")
+  source("R/1_dynamic_gene_space.R")
+}
+
+# Linear regression
+
+if (F & .dm == "23Q2") {
+  
+  source("R/0_generate_linreg_cache_instructions.R")
+  source("R/linear_regression_computation.R")
+}
+
+```
+
+# Collect predictions, prepare figure generation
+
+```{r}
+results <- list()
+
+dm_versions_to_include <- c("22Q4", "23Q2", "24Q2")[2]
+source("R/2_result_ids.R")
+source("R/2_collect_predictions.R")
+
+
+source("R/2_prepare_plotting.R")
+
+source("R/2_generate_hq_set.R")
+```
+
+# Generate figures
+
+```{r}
+if (F) {
+  source("R/3_figure_1.R")
+  source("R/3_figure_2.R")
+  source("R/3_figure_3.R")
+  source("R/3_figure_4_random_cell_line_subsetting.R")
+  source("R/3_figure_4_gene_space_heatmaps.R")
+  source("R/3_figure_5_hq_prediction_set.R")
+}
+
+if (F) {
+  # Generate large top 5k prediction dataset:
+  source("R/4_generate_EV2_prediction_set.R")
+  source("R/4_export_datasets.R")
+}
+
+```
+
+
+# Reviewer Response
+
+```{r}
+
+source("R/rr_import_other_datatypes.R")
+source("R/rr_other_datatypes.R")
+source("R/rr_uncorrected_chronos_scores.R")
+source("R/rr_lncRNAs.R")
+
+
+source("R/rr_lncRNA_plots.R")
+source("R/rr_other_correction_factor_panels.R")
+
+```
+
+```{r}
+source("R/rr_lncRNAs.R")
+source("R/rr_important_gene_pairs_with_ncRNAs.R")
+
+```
+
+
+# Export datasets
+
+```{r}
+source("R/4_export_datasets.R")
+```
+
+
+
