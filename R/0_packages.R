@@ -2,7 +2,12 @@
 
 library(data.table)
 library(readxl)
-library(tidyverse); theme_set(theme_classic())
+
+#library(tidyverse); 
+
+library(magrittr)
+library(ggplot2); theme_set(theme_classic())
+
 library(sva) # ComBat
 library(whitening) # whitening
 library(job) # run multiple R commands in separate sessions
